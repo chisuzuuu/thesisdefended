@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Falling Confetti Background</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      flex-direction: column;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3em;
+      z-index: 2;
+      position: relative;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .confetti {
+      position: absolute;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      opacity: 0.9;
+      animation: fall linear forwards;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="message">Congrats! Thesis Defended!</h1>
+
+  <script>
+    const colors = ["#ff595e", "#ffca3a", "#8ac926", "#1982c4", "#6a4c93", "#f72585", "#b5179e", "#4361ee", "#4cc9f0"];
+
+    function createConfetti() {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration = (3 + Math.random() * 4) + 's';
+      confetti.style.width = confetti.style.height = (6 + Math.random() * 6) + 'px';
+      document.body.appendChild(confetti);
+
+      confetti.addEventListener('animationend', () => confetti.remove());
+    }
+
+    // Generate confetti continuously for 20 seconds
+    const confettiInterval = setInterval(() => {
+      for (let i = 0; i < 15; i++) createConfetti();
+    }, 200);
+
+    setTimeout(() => {
+      clearInterval(confettiInterval);
+      document.getElementById('message').textContent = 'Good Luck — your next chapter awaits!';
+    }, 20000);
+  </script>
+</body>
+</html>
